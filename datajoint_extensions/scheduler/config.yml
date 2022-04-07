@@ -1,0 +1,17 @@
+---
+# Example configuration script. You should update as appropriate
+manager:
+    target_cycle_time: 600
+    will_queue: yes
+    api.run: yes
+    api.port: 5001
+    api.host: "localhost"       # Alternatively, "0.0.0.0" to make available to all requesters allowed by firewall
+
+
+tables:
+    ephys.acquisition.Recording:
+        ttl: 1h
+        job_timeout: 30m
+        serial: 5
+        parallel: 25
+        queue: dj-default
