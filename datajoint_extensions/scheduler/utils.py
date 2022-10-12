@@ -335,11 +335,16 @@ def get_worker_state(worker_obj: rq.Worker, conn=None):
         "state": worker_obj.get_state(),
         "queues": [k for k, v in get_all_queues(conn=conn).items() if v in worker_obj.queues],
     }
-    time_since_last_heartbeat = (
-        datetime.utcnow() - worker_obj.last_heartbeat
-    ).total_seconds()
+    if worker_obj.last_heartbeat is not None:
+        time_since_last_heartbeat = round(
+            (datetime.utcnow() - worker_obj.last_heartbeat).total_seconds(),
+            3
+        )
+    else:
+        time_since_last_heartbeat = None
+
     # NOTE! the rq worker explicitly uses `utc` time, rq.utils.utcnow()
-    worker_dict["last_seen_seconds"] = round(time_since_last_heartbeat, 3)
+    worker_dict["last_seen_seconds"] = time_since_last_heartbeat
     worker_dict["last_seen_seconds_pretty"] = seconds_to_pretty_time(
         time_since_last_heartbeat
     )
