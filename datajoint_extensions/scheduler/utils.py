@@ -242,7 +242,7 @@ def get_table(name: str):
         except ModuleNotFoundError:
             attribute_bits.insert(0, module_bits.pop())
     if module is None:
-        raise ModuleNotFoundError(f"Cannot import '{module_bits[0]}'.")
+        raise ModuleNotFoundError(f"Cannot import '{module_b}'.")
 
     if not len(attribute_bits):
         return module, None
